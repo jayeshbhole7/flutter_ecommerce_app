@@ -11,7 +11,9 @@ class LoginSuccessScreen extends StatelessWidget {
         leading: SizedBox(),
         title: Text("Login Successfully"),
       ),
-      body: Body(),
+      body:Center(
+        child: Body(),
+      ),
     );
   }
 }

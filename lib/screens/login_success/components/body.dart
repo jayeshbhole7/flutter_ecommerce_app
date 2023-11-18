@@ -13,14 +13,16 @@ class Body extends StatelessWidget {
           "assets/images/success.gif",
           height: SizeConfig.screenHeight * 0.4, //40%
         ),
-        SizedBox(height: SizeConfig.screenHeight * 0.08),
-        Text(
-          "Login Successfully",
-          style: TextStyle(
-            fontSize: getProportionateScreenWidth(30),
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
+        SizedBox(height: SizeConfig.screenHeight * 0),
+        Center(
+          child: Text(
+            "Login Successfully",
+            style: TextStyle(
+              fontSize: getProportionateScreenWidth(30),
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              ),
+            ),
         ),
         Spacer(),
         SizedBox(
