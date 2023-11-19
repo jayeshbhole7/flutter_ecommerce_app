@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
@@ -12,7 +13,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   int currentPage = 0;
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   List<Map<String, String>> splashData = [
     {
       "text": "Welcome to DoorStep, Let’s shop!",
@@ -36,8 +37,14 @@ class _BodyState extends State<Body> {
         currentPage = _pageController.page!.round();
       });
     });
+    
+    Timer(const Duration(seconds: 2),(){
+    _pageController.nextPage(
+      duration: kAnimationDuration,
+      curve: Curves.easeInOut,
+    );
+  });
   }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,6 +53,9 @@ class _BodyState extends State<Body> {
           Expanded(
             flex: 3,
             child: PageView.builder(
+              physics: currentPage==0
+              ? NeverScrollableScrollPhysics()
+              : AlwaysScrollableScrollPhysics(),
               controller: _pageController,
               itemCount: splashData.length,
               itemBuilder: (context, index) => SplashContent(
