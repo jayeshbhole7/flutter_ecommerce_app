@@ -46,12 +46,12 @@ AppBarTheme appBarTheme() {
     iconTheme: IconThemeData(color: Colors.black),
     systemOverlayStyle: SystemUiOverlayStyle.dark,
     toolbarTextStyle: TextTheme(
-      headline6:
+      titleLarge:
           TextStyle(color: Color.fromARGB(255, 34, 94, 80), fontSize: 18),
-    ).bodyText2,
+    ).bodyMedium,
     titleTextStyle: TextTheme(
-      headline6:
+      titleLarge:
           TextStyle(color: Color.fromARGB(255, 34, 94, 80), fontSize: 18),
-    ).headline6,
+    ).titleLarge,
   );
 }
