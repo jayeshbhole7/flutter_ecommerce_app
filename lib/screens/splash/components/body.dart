@@ -32,18 +32,28 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
+    _preloadImages();
     _pageController.addListener(() {
       setState(() {
         currentPage = _pageController.page!.round();
       });
     });
     
-    Timer(const Duration(seconds: 2),(){
-    _pageController.nextPage(
-      duration: kAnimationDuration,
-      curve: Curves.easeInOut,
-    );
-  });
+    Timer.periodic(const Duration(seconds: 2),(timer){
+      if(currentPage < splashData.length - 1){
+        _pageController.nextPage(
+        duration: kAnimationDuration,
+        curve: Curves.easeInOut,
+        );
+      }else{
+        timer.cancel();
+      }
+    });
+  }
+  Future<void> _preloadImages() async{
+    for(var splashItem in splashData){
+      await precacheImage(AssetImage(splashItem["image"]!), context);
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -53,9 +63,9 @@ class _BodyState extends State<Body> {
           Expanded(
             flex: 3,
             child: PageView.builder(
-              physics: currentPage==0
-              ? NeverScrollableScrollPhysics()
-              : AlwaysScrollableScrollPhysics(),
+              // physics: currentPage==0
+              // ? NeverScrollableScrollPhysics()
+              // : AlwaysScrollableScrollPhysics(),
               controller: _pageController,
               itemCount: splashData.length,
               itemBuilder: (context, index) => SplashContent(
