@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
-import 'package:shop_app/size_config.dart';
 import '../components/splash_content.dart';
 import '../../../components/default_button.dart';
 
@@ -16,16 +15,16 @@ class _BodyState extends State<Body> {
   final PageController _pageController = PageController();
   List<Map<String, String>> splashData = [
     {
-      "text": "Welcome to DoorStep, Let’s shop!",
-      "image": "assets/images/splash_1.png",
+      "text": "Discover Exciting Products",
+      "image": "assets/images/splash_4.png",
     },
     {
-      "text": "We help people connect with stores \naround the world!",
-      "image": "assets/images/splash_2.png",
+      "text": "Get Exclusive Deals",
+      "image": "assets/images/splash_5.png",
     },
     {
-      "text": "We show the easy way to shop. \nJust stay at home with us",
-      "image": "assets/images/splash_3.png",
+      "text": "Shop with Confidence",
+      "image": "assets/images/splash_6.png",
     },
   ];
 
@@ -33,74 +32,74 @@ class _BodyState extends State<Body> {
   void initState() {
     super.initState();
     _preloadImages();
-    _pageController.addListener(() {
-      setState(() {
-        currentPage = _pageController.page!.round();
-      });
-    });
-    
-    Timer.periodic(const Duration(seconds: 2),(timer){
-      if(currentPage < splashData.length - 1){
-        _pageController.nextPage(
-        duration: kAnimationDuration,
-        curve: Curves.easeInOut,
-        );
-      }else{
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      if (currentPage < splashData.length - 1) {
+        currentPage++;
+      } else {
         timer.cancel();
       }
+      _pageController.animateToPage(
+        currentPage,
+        duration: kAnimationDuration,
+        curve: Curves.easeInOut,
+      );
     });
   }
-  Future<void> _preloadImages() async{
-    for(var splashItem in splashData){
+
+  Future<void> _preloadImages() async {
+    for (var splashItem in splashData) {
       await precacheImage(AssetImage(splashItem["image"]!), context);
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: PageView.builder(
-              // physics: currentPage==0
-              // ? NeverScrollableScrollPhysics()
-              // : AlwaysScrollableScrollPhysics(),
-              controller: _pageController,
-              itemCount: splashData.length,
-              itemBuilder: (context, index) => SplashContent(
-                image: splashData[index]["image"],
-                text: splashData[index]['text'],
+    return Container(
+      decoration: BoxDecoration(
+        color: kPrimaryColor,
+      ),
+      child: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 4,
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: splashData.length,
+                itemBuilder: (context, index) => SplashContent(
+                  image: splashData[index]["image"],
+                  text: splashData[index]['text'],
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: <Widget>[
-                  Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      splashData.length,
-                      (index) => buildDot(index: index),
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: <Widget>[
+                    Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        splashData.length,
+                        (index) => buildDot(index: index),
+                      ),
                     ),
-                  ),
-                  Spacer(flex: 3),
-                  DefaultButton(
-                    text: "Continue",
-                    press: () {
-                      Navigator.pushNamed(context, SignInScreen.routeName);
-                    },
-                  ),
-                  Spacer(),
-                ],
+                    Spacer(flex: 2),
+                    DefaultButton(
+                      text: "Get Started",
+                      press: () {
+                        Navigator.pushNamed(context, SignInScreen.routeName);
+                      },
+                    ),
+                    Spacer(),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -109,13 +108,12 @@ class _BodyState extends State<Body> {
     return AnimatedContainer(
       duration: kAnimationDuration,
       margin: EdgeInsets.only(right: 5),
-      height: 6,
-      width: currentPage == index ? 20 : 6,
+      height: 10,
+      width: currentPage == index ? 20 : 10,
       decoration: BoxDecoration(
-        color: currentPage == index ? kPrimaryColor : Color(0xFFD8D8D8),
-        borderRadius: BorderRadius.circular(3),
+        color: currentPage == index ? Colors.white : Color(0xFFD8D8D8),
+        borderRadius: BorderRadius.circular(5),
       ),
     );
   }
 }
-
